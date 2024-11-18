@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 app.post('/send-confirmation', (req, res) => {
   const { recipientEmail, subject, textContent } = req.body;
 
-
+  console.log("Received email data:", req.body); 
   const mailOptions = {
     from: 'sagaetshepo@gmail.com', 
     to: recipientEmail,           
@@ -31,8 +31,10 @@ app.post('/send-confirmation', (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
+        console.error("Error sending email:", error);
       return res.status(500).send(`Error sending email: ${error.message}`);
     }
+    console.log('Email sent:', info.response);
     res.status(200).send(`Confirmation email sent: ${info.response}`);
   });
 });
